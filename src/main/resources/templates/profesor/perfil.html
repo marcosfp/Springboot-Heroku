@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Perfil</title>
+<!-- Required meta tags -->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+</head>
+<body>
+	<nav th:replace="fragments/header_loader"></nav>
+
+
+	<style type="text/css">
+.modulo {
+	width: 250px;
+}
+
+.foto {
+	position: relative;
+	width: 180px;
+	height: 180px;
+	float: left
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0);
+	transition: background 0.5s ease;
+}
+
+.foto:hover .overlay {
+	display: block;
+	background: rgba(0, 0, 0, .3);
+}
+
+.foto-perfil {
+	position: absolute;
+	width: 150px;
+	height: 150px;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.title {
+	position: absolute;
+	width: 500px;
+	left: 0;
+	top: 120px;
+	font-weight: 700;
+	font-size: 30px;
+	text-align: center;
+	text-transform: uppercase;
+	color: white;
+	z-index: 1;
+	transition: top .5s ease;
+}
+
+.foto:hover .title {
+	top: 90px;
+}
+
+.button {
+	position: absolute;
+	width: 175px;
+	left: 0;
+	top: 50px;
+	text-align: center;
+	opacity: 0;
+	transition: opacity .35s ease;
+}
+
+.button a {
+	width: 200px;
+	padding: 12px 48px;
+	text-align: center;
+	color: white;
+	border: solid 2px white;
+	z-index: 1;
+}
+
+.foto:hover .button {
+	opacity: 1;
+}
+
+#main_wrapper {
+	width: 900px;
+	margin: auto;
+}
+
+.grid {
+	display: grid;
+	grid-template-areas: "perfil " "email " "modulo ";
+}
+
+.anadir {
+	position: relative;
+	left: 44%;
+}
+
+.anadir_email {
+	height: 100px;
+}
+
+.anadir_email h5 {
+	margin-top: 10px;
+}
+
+.input_email {
+	width: 500px;
+}
+</style>
+	<div id="main_wrapper" class="grid">
+		<div class="grid-area: perfil;">
+			<div class="foto" th:if="${imagen != null}">
+				<img class="foto-perfil"
+					th:src="@{/imagenes/{idProfesor}(idProfesor=${profesor.idProfesor})}">
+				<div class="overlay"></div>
+				<div class="button">
+					<a href="#"
+						th:href="@{/imagenes/cargar/{idProfesor}(idProfesor=${profesor.idProfesor})}">
+						Editar foto </a>
+				</div>
+				</a>
+			</div>
+			<div class="foto" th:if="${imagen == null}">
+				<img class="foto-perfil" th:src="@{/images/user.png}">
+				<div class="overlay"></div>
+				<div class="button">
+					<a href="#"
+						th:href="@{/imagenes/cargar/{idProfesor}(idProfesor=${profesor.idProfesor})}">
+						Editar foto </a>
+				</div>
+				</a>
+			</div>
+
+			<div>
+				<div>
+
+					<h1>
+						El perfil de usuario de <span th:text="${profesor.nombreProfesor}"></span>
+					</h1>
+					<div>
+						<b>Nombre:</b> <span th:text="${profesor.nombreProfesor}"></span>
+					</div>
+					<div>
+						<b>Apellidos:</b> <span th:text="${profesor.apellidosProfesor}"></span>
+					</div>
+					<div>
+						<b>Nombre de Usuario:</b> <span th:text="${profesor.username}"></span>
+					</div>
+
+					<div th:if="${propietario}">
+
+						<a
+							th:href="@{/profesor/perfil/actualizar/{idProfesor}(idProfesor=${profesor.idProfesor})}"
+							class="btn btn-info">Editar Perfil <i
+							class="fas fa-user-edit"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid-area: email;">
+
+			<div class="email">
+				<div class="card">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Email:</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr th:if="${profesor.emails.empty}">
+								<td colspan="2">No existen emails</td>
+							</tr>
+							<tr th:each="email : ${profesor.emails}">
+								<td><span th:text="${email.direccionEmail}"> email </span></td>
+
+								<td><a
+									th:href="@{/profesor/eliminar_email/{idProfesor}/{idEmail}(idProfesor=${profesor.idProfesor},idEmail=${email.idEmail})}"
+									class="btn btn-danger"
+									th:if="${#authorization.expression('hasAuthority(''ROL_ADMIN'')') OR (#authorization.expression('hasAuthority(''ROL_PROFESOR'')') AND  profesor.idProfesor == session.idUsuario)}">
+										<i class="fas fa-trash"></i>
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="anadir_email"
+				th:if="${#authorization.expression('hasAuthority(''ROL_ADMIN'')') OR (#authorization.expression('hasAuthority(''ROL_PROFESOR'')') AND  profesor.idProfesor == session.idUsuario)}">
+				<div>
+					<h5>Añadir Email</h5>
+
+					<form
+						th:action="@{/profesor/anadir_email/{id}(id=${profesor.idProfesor})}"
+						method="post">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="input-group input-group-md">
+									<input type="email" class="form-control"
+										id="exampleFormControlInput1" name="nuevoemail"
+										placeholder="name@example.com">
+									<div class="input-group-btn">
+										<button type="submit" class="btn btn-md btn-success">Añadir
+											Email</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<div class=" grid-area: modulo;">
+			<div class="card">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Modulos que imparte</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:if="${profesor.modulos.empty}">
+							<td colspan="2">No existen modulos asignados</td>
+						</tr>
+						<tr th:each="modulo : ${profesor.modulos}">
+							<td><a th:href="@{/modulo/{id}(id=${modulo.idModulo})}"
+								class="btn btn-primary modulo"><span
+									th:text="${modulo.nombreModulo }"> modulo </span></a></td>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>

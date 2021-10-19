@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<title>Pagina Index</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet"
+	href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+
+</head>
+<body>
+
+	<nav th:replace="fragments/header_loader"></nav>
+
+
+	<div class="jumbotron">
+		<h1 class="display-4">Bievenido</h1>
+		<p class="lead">Esta es una aplicación para probar el uso de
+			Hibernate.</p>
+		<hr class="my-4">
+		<p>Desde estos enlaces podrás ver los porfesores y los módulos de
+			nuestra entidad educactiva. Dentro de ella podrás ver más
+			funcionalidades en su interio</p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg" th:href="@{/modulo/lista}"
+				role="button">LIstar Módulos</a>
+
+		</p>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Perfil</title>
+<!-- Required meta tags -->
+<meta http-equiv=”Content-Type” content=”text/html; charset=UTF-8″ />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+input[type=checkbox] {
+	padding-left: 10px;
+	margin-left: 10px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+li div {
+	display: table-cell;
+	vertical-align: middle;
+}
+</style>
+
+<body>
+	<nav th:replace="fragments/header_loader"></nav>
+
+
+	<div class="container my-2">
+		<div class="card">
+			<div class="card-body">
+
+
+				<input type="hidden" id="idModulo" th:value="${modulo.idModulo}">
+				<h1>
+					Profesores que imparten <span th:text="${modulo.nombreModulo}"></span>
+				</h1>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Nombre</th>
+							<th scope="col">Apellidos</th>
+							<th scope="col">Perfil</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')"><i
+								class="far fa-trash-alt"></i></th>
+						</tr>
+					</thead>
+					<tbody id="bodytabla">
+						<tr th:if="${modulo.profesores.empty}">
+							<td colspan="2">No existen profesores que impartan este
+								módulo</td>
+						</tr>
+						<tr th:each="profesor : ${modulo.profesores}">
+							<td style="display: none;" id="idTd"><span id="idSpan"
+								th:text="${profesor.idProfesor}"> </span></td>
+							<td><span th:text="${profesor.nombreProfesor}">
+									Nombre </span></td>
+							<td><span th:text="${profesor.apellidosProfesor}">
+									Apellido </span></td>
+							<td><a
+								th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
+								class="btn btn-primary"><i class="fas fa-user"></i></a></td>
+							<td><a
+								th:href="@{/modulo/desmatricularProfesor/{id}/{idmodulo}(id=${profesor.idProfesor},idmodulo=${modulo.idModulo})}"
+								th:if="${#authorization.expression('hasAuthority(''ROL_ADMIN'')') OR (#authorization.expression('hasAuthority(''ROL_PROFESOR'')') AND  profesor.idProfesor == session.idUsuario)}"
+								class="btn btn-danger borrar"><i class="fas fa-user-times"></i></a>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="container my-2" th:unless="${profesores.empty}"
+		sec:authorize="hasAuthority('ROL_ADMIN')">
+		<div class="card">
+			<div class="card-body">
+				<form
+					th:action="@{/modulo/matricular/{idmodulo}(idmodulo=${modulo.idModulo})}"
+					method="post">
+					<ul>
+						<li th:each="profesor : ${profesores}"><label
+							th:for="${profesor.idProfesor}"
+							th:text="${profesor.nombreProfesor}"></label> <input
+							type="checkbox" class="form-check-input"
+							name="profesoresseleccionados" th:value="${profesor.idProfesor}"
+							th:id="${profesor.idProfesor}" /></li>
+					</ul>
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary"
+							value="Matricular Profesores">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container my-2" th:if="${#authorization.expression('hasAuthority(''ROL_ADMIN'')') OR (#authorization.expression('hasAuthority(''ROL_PROFESOR'')') AND  profesor.idProfesor == session.idUsuario)}">
+		<div class="card">
+			<div class="card-body">
+				<form method="post"
+					th:action="@{/modulo/matricular/{idmodulo}(idmodulo=${modulo.idModulo})}">
+					<input type="hidden" name="profesoresseleccionados"
+						th:value="${session.idUsuario}" />
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary"
+							value="Matricularme en este Módulo">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

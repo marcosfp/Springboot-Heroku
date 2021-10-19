@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Lista de Profesores</title>
+<!-- Required meta tags -->
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
+<script th:src="@{/js/jquery-3.5.0.js}"></script>
+<style>
+.paginacion  {
+    display: block;
+    margin-left:auto;
+    margin-right:auto;
+}
+</style>
+</head>
+<body>
+	<nav th:replace="fragments/header_loader"></nav>
+
+	<h4 class="display-1">Lista de Módulos</h4>
+
+	<p>En esta página puedes encontrar los profesores que figuran en el
+		centro:
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Modulo</th>
+				<th scope="col">Perfil</th>
+				<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')">Borrar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${modulos.empty}">
+				<td colspan="2">No existen modulos en el sistema</td>
+			</tr>
+			<tr th:each="modulo : ${modulos}">
+				<td><span th:text="${modulo.nombreModulo}"></span></td>
+				<td><a th:href="@{/modulo/{id}(id=${modulo.idModulo})}"
+					class="btn btn-primary modulo">Perfil</a></td>
+				<td><a th:href="@{/modulo/borrar/{id}(id=${modulo.idModulo})}" sec:authorize="hasAuthority('ROL_ADMIN')"
+					class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+			</tr>
+		</tbody>
+	</table>
+	<div   style="text-align:center">
+	<div class="btn-group paginacion" th:if="${modulos.totalPages > 0}" >
+			<a th:each="pageNumber : ${pageNumbers}"
+				th:href="@{/modulo/lista(size=${modulos.size}, page=${pageNumber})}"
+				th:text=${pageNumber}
+				th:class="${pageNumber==modulos.number + 1} ? 'btn btn-primary' : 'btn btn-secondary'"></a>
+		</div>
+	</div>
+
+	<div class="card" sec:authorize="hasAuthority('ROL_ADMIN')">
+		<div class="card-body">
+			<div class="col-md-10">
+				<form th:action="@{/modulo/crear}" th:object="${modulo_nuevo}"
+					method="post">
+					<div class="row">
+						<div class="form-group col-md-8">
+							<label for="nombreModulo" class="col-form-label">Crear
+								Módulo</label> <input type="text" class="form-control" id="nombreModulo"
+								placeholder="Nombre de Modulo" th:field="*{nombreModulo}">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<input type="submit" class="btn btn-primary" value="Crear Modulo">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

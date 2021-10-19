@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Log In</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+	<nav th:replace="fragments/header_loader"></nav>
+
+
+	<style type="text/css">
+.foto-perfil {
+	/* 	position: absolute; */
+	width: 150px;
+	height: 150px;
+	margin-left: 125px;
+	/* 	margin-top:15px; */
+	/* 	margin-left: 15px; */
+}
+
+.main {
+	width: 400px;
+	height: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+.btn-lg {
+	width: 400px
+}
+
+.titulo {
+	width: 400px;
+	height: 35px;
+	text-align: center;
+	vertical-align: middle;
+	margin-top: 0px;
+	font: 25px Arial, sans-serif;
+}
+}
+</style>
+	<div class="main">
+		<div class="container-sm ">
+			<div class="titulo">
+				Foto de <span th:text="${profesor.nombreProfesor}">
+			</div>
+			<div class="foto" th:if="${imagen != null}">
+				<img class="foto-perfil"
+					th:src="@{/imagenes/{idProfesor}(idProfesor=${profesor.idProfesor})}">
+			</div>
+			<div class="foto" th:if="${imagen == null}">
+				<img class="foto-perfil" th:src="@{/images/user.png}">
+			</div>
+		</div>
+		<div class="container-sm "
+			style="margin-right: auto; margin-left: auto;">
+			<div class="card" style="float: left">
+
+
+				<form
+					th:action="@{/imagenes/cargar/{idProfesor}(idProfesor=${profesor.idProfesor})}"
+					method="POST" enctype="multipart/form-data">
+
+					<tr>
+						<td><input type="file" class="form-control" name="file"
+							required></td>
+					</tr>
+					<tr>
+						<td><input type="submit" class="btn btn-lg btn-info"></td>
+					</tr>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

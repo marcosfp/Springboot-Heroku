@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+	integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+	crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark "
+		style="background-color: #242c3c;">
+		<a class="navbar-brand" th:href="@{/index}"><img
+			th:src="@{/images/springmoodle.png}" style="height: 35px;" /></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarColor03" aria-controls="navbarColor03"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarColor03">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/index}">Home <span class="sr-only">(current)</span>
+				</a></li>
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/modulo/lista}"> Lista Módulos</a> <span
+					class="sr-only">(current)</span> </a></li>
+				<li class="nav-item active"><a class="nav-link"
+					th:href="@{/login}"> Login</a> <span class="sr-only">(current)</span>
+					</a></li>
+
+			</ul>
+			<div class="ui-widget">
+				<input type="text" class="form-control mr-sm-2" name="search"
+					id="search" placeholder="Search">
+			</div>
+		</div>
+	</nav>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>Add User</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+	<nav th:replace="fragments/header_loader"></nav>
+
+	<div class="container my-5">
+		<h3>Add User</h3>
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-10">
+					<form th:action="@{/modulo/crear}" th:object="${modulo}"
+						method="post">
+						<div class="row">
+							<div class="form-group col-md-8">
+								<label for="nombreModulo" class="col-form-label">Nombre
+									de Usuario</label> <input type="text" class="form-control"
+									id="nombreModulo" placeholder="Nombre de Modulo"
+									th:field="*{nombreModulo}">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
