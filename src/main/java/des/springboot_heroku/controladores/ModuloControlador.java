@@ -80,7 +80,7 @@ public class ModuloControlador {
 
 		mav.addObject("modulos", modulos);
 		mav.addObject("modulo_nuevo", new Modulo());
-		mav.setViewName("/modulo/lista");
+		mav.setViewName("modulo/lista");
 		return mav;
 	}
 
