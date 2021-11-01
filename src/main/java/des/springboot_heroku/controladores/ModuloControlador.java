@@ -47,7 +47,7 @@ public class ModuloControlador {
 		mav.addObject("profesor", new Profesor());
 		mav.addObject("profesores", lProfesores);
 		mav.addObject("modulo", modulos);
-		mav.setViewName("/modulo/perfil");
+		mav.setViewName("modulo/perfil");
 		return mav;
 	}
 
