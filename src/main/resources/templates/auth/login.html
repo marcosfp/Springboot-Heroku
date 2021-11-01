@@ -12,26 +12,26 @@
 
 	<nav th:replace="fragments/header_loader"></nav>
 	<div class="container my-5">
-		<h3>LogIn</h3>
+		<h3>Log In</h3>
 		<div class="card">
 			<div class="card-body">
 				<div class="col-md-10">
 
 					<div th:if="${param.error}" class="alert alert-danger">
-						Invalid username and password.</div>
+						Usuario y/o contraseña incorrectos.</div>
 					<form th:action="@{/login}" method="post">
 						<div class="row">
 
 							<div class="form-group col-md-8">
-								<label for="email" class="col-form-label">Nombre de Usuario</label> <input
+								<label for="email" class="col-form-label">Nombre de usuario</label> <input
 									type="text" class="form-control" id="username" name="username"
 									placeholder="Nombre de usuario">
 							</div>
 
 							<div class="form-group col-md-8">
-								<label for="password" class="col-form-label">Password</label> <input
+								<label for="password" class="col-form-label">Contraseña</label> <input
 									type="password" class="form-control" id="password"
-									name="password" placeholder="Password">
+									name="password" placeholder="Contraseña">
 							</div>
 							<div class="col-md-6">
 								<input type="submit" class="btn btn-primary" value="Log In">

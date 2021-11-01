@@ -48,7 +48,7 @@ public class ImagenControlador {
 		}
 		mav.addObject("imagen", img);
 		mav.addObject("profesor", profesor);
-		mav.setViewName("/imagen/imagen_subir");
+		mav.setViewName("imagen/imagen_subir");
 		return mav;
 	}
 
